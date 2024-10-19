@@ -1,5 +1,5 @@
 import librosa
-import numpy as np
+import soundfile as sf
 
 class AudioInput:
     def __init__(self, file_path):
@@ -10,7 +10,8 @@ class AudioInput:
     def load_audio(self):
         """Load the audio file and return the time series and sample rate."""
         try:
-            self.audio_time_series, self.sample_rate = librosa.load(self.file_path)
+            # librosa can handle MP3 files
+            self.audio_time_series, self.sample_rate = librosa.load(self.file_path, sr=None)
             return self.audio_time_series, self.sample_rate
         except Exception as e:
             print(f"Error loading audio file: {e}")
