@@ -3,6 +3,7 @@ import numpy as np
 from audio.input import AudioInput
 from analysis.feature_extraction import AudioFeatures
 from ml.model import StyleTransfer
+from generation.composer import AudioComposer
 
 def create_feature_vector(features):
     vector = []
@@ -16,7 +17,7 @@ def create_feature_vector(features):
 def main():
     # Specify the paths to your input audio files
     input_file1 = os.path.join('data', 'input', '130493__electrobuz__drumstep_loop_180bpm.wav')
-    input_file2 = os.path.join('data', 'input', '252809__scydan__breakbeat-180bpm.wav')  # Replace with another actual file name
+    input_file2 = os.path.join('data', 'input', '252809__scydan__breakbeat-180bpm.wav')
 
     # Create instances of AudioInput
     audio_input1 = AudioInput(input_file1)
@@ -62,7 +63,25 @@ def main():
     print(f"Style features of song2 (first 5): {feature_vector2[:5]}")
     print(f"Transformed features (first 5): {transformed_features[0][:5]}")
 
-    # TODO: Implement audio synthesis from transformed features
+    # Compose new audio
+    composer = AudioComposer(audio1, sr1, transformed_features[0])
+    try:
+        new_audio = composer.compose()
+    except Exception as e:
+        print(f"Error during audio composition: {str(e)}")
+        print("Detailed traceback:")
+        traceback.print_exc()
+        return
+
+    # Save the new audio
+    output_file = os.path.join('data', 'output', 'composed_audio.wav')
+    try:
+        composer.save_audio(new_audio, output_file)
+        print(f"\nComposed audio saved to: {output_file}")
+    except Exception as e:
+        print(f"Error saving composed audio: {str(e)}")
+        print("Detailed traceback:")
+        traceback.print_exc()
 
 if __name__ == "__main__":
     main()
