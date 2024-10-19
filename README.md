@@ -17,3 +17,13 @@
     - pytorch or tensorflow for machine learning
     - pretty_midi for MIDI file handling
     - fluidsynth for audio synthesis
+
+## Setup & Installation:
+1. Setup Virtual Environment: `python -m venv venv && source venv/bin/activate`
+2. Installing dependencies: `pip install -r requirements.txt`
+
+## Running:
+1. Start the application: `python src/main.py`
+
+## Deactivation:
+1. Deactivate Virtual Environment: `deactivate`
